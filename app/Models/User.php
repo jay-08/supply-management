@@ -54,9 +54,13 @@ class User extends Authenticatable
     /** Helpers */
     public function getAvatarUrlAttribute(): string
     {
-        return $this->avatar
-            ? asset('storage/' . $this->avatar)
-            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=2563eb&color=fff&size=40';
+        if (!$this->avatar) {
+            return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=2563eb&color=fff&size=40';
+        }
+        if (str_starts_with($this->avatar, 'data:') || str_starts_with($this->avatar, 'http')) {
+            return $this->avatar;
+        }
+        return asset('storage/' . $this->avatar);
     }
 
     public function getRoleNameAttribute(): string

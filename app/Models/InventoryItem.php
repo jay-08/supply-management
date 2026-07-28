@@ -61,9 +61,13 @@ class InventoryItem extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return $this->image
-            ? asset('storage/' . $this->image)
-            : asset('images/no-image.png');
+        if (!$this->image) {
+            return asset('images/no-image.png');
+        }
+        if (str_starts_with($this->image, 'data:') || str_starts_with($this->image, 'http')) {
+            return $this->image;
+        }
+        return asset('storage/' . $this->image);
     }
 
     public function getStatusBadgeAttribute(): string
