@@ -250,30 +250,42 @@
 </div>
 
 {{-- Cart Offcanvas --}}
-<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 450px;">
-    <div class="offcanvas-header border-bottom px-4">
-        <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="cartOffcanvasLabel">
-            <i class="bi bi-cart3 text-primary"></i> Request Cart
-        </h5>
+<div class="offcanvas offcanvas-end glass-cart border-0" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 440px;">
+    <div class="offcanvas-header glass-cart-header px-4 py-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="glass-cart-icon">
+                <i class="bi bi-cart3"></i>
+            </div>
+            <div>
+                <h5 class="offcanvas-title fw-bold m-0" id="cartOffcanvasLabel">Request Cart</h5>
+                <small class="text-muted" style="font-size: 11px;">Review items in your order</small>
+            </div>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body d-flex flex-column p-0 bg-light">
+    <div class="offcanvas-body glass-cart-body d-flex flex-column p-0">
         
         {{-- Cart Items List --}}
-        <div class="flex-grow-1 overflow-auto p-4" id="cartItemsContainer">
-            <div class="text-center text-muted my-5" id="emptyCartMessage">
-                <i class="bi bi-cart-x mb-2 d-block" style="font-size: 3rem; opacity: 0.5;"></i>
-                <h5>Your cart is empty</h5>
-                <p class="fs-6">Browse supplies and add them to your request.</p>
-                <a href="{{ route('requests.create') }}" class="btn btn-primary mt-2 btn-sm rounded-pill px-4">Browse Supplies</a>
+        <div class="flex-grow-1 overflow-auto p-4 d-flex flex-column" id="cartItemsContainer">
+            <div class="text-center my-auto px-3" id="emptyCartMessage">
+                <div class="glass-empty-card">
+                    <div class="glass-empty-icon">
+                        <i class="bi bi-cart-x-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Your Cart is Empty</h5>
+                    <p class="text-muted small mb-4">Explore our supply catalog and add items to your request list.</p>
+                    <a href="{{ route('requests.create') }}" class="btn glass-btn-gradient rounded-pill px-4 py-2 fw-semibold">
+                        <i class="bi bi-compass me-1"></i> Browse Supplies
+                    </a>
+                </div>
             </div>
             <div id="cartItemsList" class="d-flex flex-column gap-3"></div>
         </div>
 
         {{-- Checkout Action --}}
-        <div class="bg-white border-top p-4 shadow-sm" id="checkoutSection" style="display: none;">
-            <a href="{{ route('requests.checkout') }}" class="btn btn-primary w-100 fw-bold py-2 shadow-sm rounded-pill" id="btnReviewRequest">
-                Review and Confirm Request <i class="bi bi-arrow-right ms-1"></i>
+        <div class="glass-footer p-4" id="checkoutSection" style="display: none;">
+            <a href="{{ route('requests.checkout') }}" class="btn glass-btn-gradient w-100 fw-bold py-2.5 rounded-pill shadow-sm" id="btnReviewRequest">
+                Review & Confirm Request <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
 
@@ -451,18 +463,18 @@ function updateCartUI() {
             
             cart.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'd-flex align-items-center bg-white p-3 rounded-3 shadow-sm border';
+                div.className = 'glass-cart-item d-flex align-items-center p-3';
                 div.innerHTML = `
-                    <div class="bg-primary-subtle text-primary rounded d-flex align-items-center justify-content-center me-3" style="width:50px; height:50px; font-size:1.5rem;">
-                        <i class="bi bi-box-seam"></i>
+                    <div class="glass-item-icon text-primary rounded-3 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width:46px; height:46px; font-size:1.35rem;">
+                        <i class="bi bi-box-seam-fill"></i>
                     </div>
                     <div class="flex-grow-1 min-w-0">
-                        <div class="fw-bold text-truncate" style="font-size:14px;" title="${item.name}">${item.name}</div>
-                        <div class="text-muted" style="font-size:11px;">Max: ${item.stock} ${item.unit}</div>
+                        <div class="fw-bold text-truncate" style="font-size:13.5px;" title="${item.name}">${item.name}</div>
+                        <div class="text-muted" style="font-size:11px;">Max Stock: ${item.stock} ${item.unit}</div>
                     </div>
                     <div class="d-flex align-items-center gap-2 ms-2">
-                        <input type="number" class="form-control form-control-sm text-center" style="width: 60px;" value="${item.quantity}" min="1" max="${item.stock}" onchange="updateCartItemQty(${item.id}, this.value)">
-                        <button type="button" class="btn btn-sm btn-light text-danger p-1" onclick="removeFromCart(${item.id})"><i class="bi bi-trash"></i></button>
+                        <input type="number" class="form-control form-control-sm text-center shadow-none" style="width: 58px; border-radius: 8px;" value="${item.quantity}" min="1" max="${item.stock}" onchange="updateCartItemQty(${item.id}, this.value)">
+                        <button type="button" class="btn btn-sm btn-link text-danger p-1 text-decoration-none" onclick="removeFromCart(${item.id})" title="Remove item"><i class="bi bi-trash3-fill"></i></button>
                     </div>
                 `;
                 itemsList.appendChild(div);
