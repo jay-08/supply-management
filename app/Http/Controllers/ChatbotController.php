@@ -34,7 +34,11 @@ class ChatbotController extends Controller
         }
 
         // Fuzzy Keyword Matching Engine
-        $reply = $this->getAnswer($message);
+        try {
+            $reply = $this->getAnswer($message);
+        } catch (\Throwable $e) {
+            $reply = "📦 **How to Request Supplies:**\n1. Go to the **Supply Catalog** on the top menu.\n2. Browse items and click **Add to Request**.\n3. Open your **Request Cart** and click **Review & Confirm**.\n4. Select your Department, enter the Purpose, and click **Submit Request**!";
+        }
 
         return response()->json([
             'reply' => $reply

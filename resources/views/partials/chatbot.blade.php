@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(() => {
             if (typingEl) typingEl.classList.add('d-none');
-            appendBotMessage('I can help you with requesting supplies, tracking orders, and PO workflows. Try asking again!');
+            appendBotMessage('⚠️ Connection issue. Please refresh the page or try asking again!');
         })
         .finally(() => {
             setTimeout(() => {
