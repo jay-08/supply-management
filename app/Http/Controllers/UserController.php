@@ -130,7 +130,7 @@ class UserController extends Controller
             'name'     => 'required|string|max:100',
             'phone'    => 'nullable|string|max:20',
             'position' => 'nullable|string|max:100',
-            'avatar'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'avatar'   => 'nullable|image',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 

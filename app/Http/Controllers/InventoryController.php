@@ -57,7 +57,7 @@ class InventoryController extends Controller
             'unit_cost'     => 'required|numeric|min:0',
             'location'      => 'nullable|string|max:100',
             'status'        => 'required|in:active,inactive',
-            'image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'image'         => 'nullable|image',
         ]);
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -117,7 +117,7 @@ class InventoryController extends Controller
             'unit_cost'     => 'required|numeric|min:0',
             'location'      => 'nullable|string|max:100',
             'status'        => 'required|in:active,inactive,discontinued',
-            'image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'image'         => 'nullable|image',
         ]);
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
