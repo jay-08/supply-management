@@ -7,6 +7,7 @@ COPY . /var/www/html
 ENV DOCUMENT_ROOT=/var/www/html/public
 ENV INDEX_FILE=index.php
 ENV PHP_MEM_LIMIT=512M
+ENV ROUTING=laravel
 
 # Install production dependencies
 RUN composer install --no-dev --optimize-autoloader
