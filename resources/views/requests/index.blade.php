@@ -40,10 +40,19 @@
                         <td>{!! $req->status_badge !!}</td>
                         <td style="font-size:11px;color:var(--text-muted)">{{ $req->created_at->format('M d, Y') }}</td>
                         <td class="text-end">
-                            <a href="{{ route('requests.show', $req->id) }}" class="btn btn-sm btn-light" style="border-radius:6px"><i class="bi bi-eye"></i></a>
+                            <a href="{{ route('requests.show', $req->id) }}" class="btn btn-sm btn-light" style="border-radius:6px" title="View"><i class="bi bi-eye"></i></a>
                             @if($req->status === 'pending' && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('supply-officer')))
-                                <a href="{{ route('requests.show', $req->id) }}" class="btn btn-sm btn-success" style="border-radius:6px"><i class="bi bi-check-lg"></i></a>
+                                <a href="{{ route('requests.show', $req->id) }}" class="btn btn-sm btn-success" style="border-radius:6px" title="Approve"><i class="bi bi-check-lg"></i></a>
                             @endif
+                            @role('admin')
+                            <form action="{{ route('requests.destroy', $req->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-light text-danger" style="border-radius:6px" title="Delete" data-confirm="Are you sure you want to delete request {{ $req->request_number }}? This cannot be undone.">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                            @endrole
                         </td>
                     </tr>
                     @endforeach

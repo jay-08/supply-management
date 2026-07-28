@@ -44,6 +44,15 @@
             <button type="button" class="btn btn-outline-secondary btn-sm" data-confirm="Cancel this request?"><i class="bi bi-slash-circle"></i> Cancel</button>
         </form>
         @endif
+        @role('admin')
+        <form action="{{ route('requests.destroy', $request->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline-danger btn-sm" data-confirm="Are you sure you want to delete request {{ $request->request_number }}? This cannot be undone.">
+                <i class="bi bi-trash"></i> Delete Request
+            </button>
+        </form>
+        @endrole
     </div>
 </div>
 

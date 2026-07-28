@@ -244,4 +244,28 @@ class SupplyRequestController extends Controller
         ActivityLog::log('cancelled', 'request', "Cancelled request: {$req->request_number}", $req);
         return back()->with('success', 'Request cancelled.');
     }
+
+    public function destroy(int $id)
+    {
+        if (!auth()->user()->hasRole('admin')) {
+            abort(403, 'Only administrators can delete supply requests.');
+        }
+
+        $req = SupplyRequest::findOrFail($id);
+
+        DB::transaction(function () use ($req) {
+            RequestItem::where('supply_request_id', $req->id)->delete();
+
+            $issuances = Issuance::where('supply_request_id', $req->id)->get();
+            foreach ($issuances as $issuance) {
+                IssuanceItem::where('issuance_id', $issuance->id)->delete();
+                $issuance->delete();
+            }
+
+            ActivityLog::log('deleted', 'request', "Deleted request: {$req->request_number}", $req);
+            $req->delete();
+        });
+
+        return redirect()->route('requests.index')->with('success', "Supply Request {$req->request_number} deleted successfully.");
+    }
 }
