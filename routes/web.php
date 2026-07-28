@@ -28,7 +28,7 @@ Route::get('/catalog', [PublicController::class, 'catalog'])->name('public.catal
 Route::get('/checkout', [PublicController::class, 'checkout'])->name('public.checkout');
 Route::post('/checkout', [PublicController::class, 'storeCheckout'])->name('public.checkout.store');
 Route::post('/track/{id}/claim', [PublicController::class, 'claim'])->name('public.claim');
-Route::post('/chatbot/ask', [ChatbotController::class, 'ask'])->name('chatbot.ask');
+Route::post('/chatbot/ask', [ChatbotController::class, 'ask'])->name('chatbot.ask')->middleware('throttle:15,1');
 
 /*
 |--------------------------------------------------------------------------

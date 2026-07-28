@@ -11,11 +11,25 @@ class ChatbotController extends Controller
 {
     public function ask(Request $request)
     {
-        $message = trim(strtolower($request->input('message', '')));
+        $message = trim(mb_strtolower($request->input('message', '')));
 
         if (empty($message)) {
             return response()->json([
                 'reply' => 'Hello! I am your Supply Assistant. How can I help you today? You can ask me how to request supplies, track a request, or check PO workflows.'
+            ]);
+        }
+
+        // Anti-Spam: Block oversized messages
+        if (mb_strlen($message) > 300) {
+            return response()->json([
+                'reply' => '⚠️ Please keep your question under 300 characters.'
+            ]);
+        }
+
+        // Anti-Spam: Block short gibberish / single character repeated spam
+        if (mb_strlen($message) < 2) {
+            return response()->json([
+                'reply' => 'Please type a complete question so I can assist you.'
             ]);
         }
 

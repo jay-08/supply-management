@@ -62,8 +62,8 @@
         {{-- Input Footer --}}
         <div class="p-2 bg-white border-top">
             <form id="aiChatbotForm" class="d-flex gap-2 align-items-center m-0">
-                <input type="text" id="aiChatbotInput" class="form-control form-control-sm rounded-pill px-3 py-1.5 border" placeholder="Ask a question..." autocomplete="off" style="font-size: 12px;">
-                <button type="submit" class="btn btn-primary rounded-circle p-1 d-flex align-items-center justify-content-center shadow-sm flex-shrink-0" style="width: 32px; height: 32px;">
+                <input type="text" id="aiChatbotInput" class="form-control form-control-sm rounded-pill px-3 py-1.5 border" placeholder="Ask a question..." autocomplete="off" maxlength="300" style="font-size: 12px;">
+                <button type="submit" id="aiChatbotSendBtn" class="btn btn-primary rounded-circle p-1 d-flex align-items-center justify-content-center shadow-sm flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-send-fill" style="font-size: 11px;"></i>
                 </button>
             </form>
@@ -80,8 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('aiChatbotClose');
     const form = document.getElementById('aiChatbotForm');
     const input = document.getElementById('aiChatbotInput');
+    const sendBtn = document.getElementById('aiChatbotSendBtn');
     const messages = document.getElementById('aiChatbotMessages');
-    const typing = id => document.getElementById(id);
+    let isSending = false;
 
     if (!trigger || !windowEl) return;
 
@@ -100,14 +101,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (isSending) return;
         const text = input.value.trim();
         if (!text) return;
+
+        if (text.length > 300) {
+            appendBotMessage('⚠️ Please keep your question under 300 characters.');
+            return;
+        }
+
         appendUserMessage(text);
         input.value = '';
         fetchBotReply(text);
     });
 
     window.sendQuickQuestion = function(text) {
+        if (isSending) return;
         appendUserMessage(text);
         fetchBotReply(text);
     };
@@ -149,6 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function fetchBotReply(userMsg) {
         const typingEl = document.getElementById('aiTypingIndicator');
         if (typingEl) typingEl.classList.remove('d-none');
+        isSending = true;
+        if (input) input.disabled = true;
+        if (sendBtn) sendBtn.disabled = true;
 
         fetch('{{ route("chatbot.ask") }}', {
             method: 'POST',
@@ -158,7 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ message: userMsg })
         })
-        .then(r => r.json())
+        .then(async r => {
+            if (r.status === 429) {
+                return { reply: '⚠️ **Too Many Requests**: You are sending messages too quickly. Please wait a few seconds before trying again.' };
+            }
+            return r.json();
+        })
         .then(data => {
             if (typingEl) typingEl.classList.add('d-none');
             appendBotMessage(data.reply || 'Sorry, I am having trouble responding right now.');
@@ -166,6 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(() => {
             if (typingEl) typingEl.classList.add('d-none');
             appendBotMessage('I can help you with requesting supplies, tracking orders, and PO workflows. Try asking again!');
+        })
+        .finally(() => {
+            setTimeout(() => {
+                isSending = false;
+                if (input) { input.disabled = false; input.focus(); }
+                if (sendBtn) sendBtn.disabled = false;
+            }, 800);
         });
     }
 
