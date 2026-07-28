@@ -219,21 +219,7 @@
                 </a>
             </form>
 
-            <div class="demo-creds">
-                <div class="label">Demo Accounts (click to fill)</div>
-                <div class="demo-cred-item" onclick="fillCreds('admin@supply.local','Admin@1234')">
-                    <strong>Administrator</strong><span>admin@supply.local / Admin@1234</span>
-                </div>
-                <div class="demo-cred-item" onclick="fillCreds('officer@supply.local','Officer@1234')">
-                    <strong>Supply Officer</strong><span>officer@supply.local</span>
-                </div>
-                <div class="demo-cred-item" onclick="fillCreds('staff@supply.local','Staff@1234')">
-                    <strong>Staff</strong><span>staff@supply.local</span>
-                </div>
-                <div class="demo-cred-item" onclick="fillCreds('auditor@supply.local','Auditor@1234')">
-                    <strong>Auditor</strong><span>auditor@supply.local</span>
-                </div>
-            </div>
+
         </div>
     </div>
 
