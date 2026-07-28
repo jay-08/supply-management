@@ -70,9 +70,14 @@ class ChatbotController extends Controller
 
         // 6. Stock & Inventory / Available Supplies
         if (str_contains($msg, 'stock') || str_contains($msg, 'inventory') || str_contains($msg, 'available') || str_contains($msg, 'item') || str_contains($msg, 'out of stock') || str_contains($msg, 'catalog') || str_contains($msg, 'list')) {
-            $totalItems = InventoryItem::where('status', 'active')->count();
+            $totalItems = InventoryItem::where('status', 'active')->where('quantity', '>', 0)->count();
             $catalogUrl = route('public.catalog');
-            return "📊 **Available Supplies:**\nCurrently tracking **{$totalItems} active supply items** in stock.\n\nTo view available supplies, go to [Supply Catalog]({$catalogUrl})!";
+
+            if ($totalItems === 0) {
+                return "📦 **Supply Inventory Status:**\nThere are currently no supplies available in stock. Please stay tuned for updates as our Supply Unit restocks inventory!\n\nYou can visit the [Supply Catalog]({$catalogUrl}) anytime to check for updates.";
+            }
+
+            return "📊 **Available Supplies:**\nWe currently have **{$totalItems} active supply items** in stock!\n\nTo view and request items, go to [Supply Catalog]({$catalogUrl})!";
         }
 
         // 7. Login & Access
