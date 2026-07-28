@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'System Administrator',
                 'email'         => 'admin@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Admin@2026!'),
                 'department_id' => Department::where('code', 'ADM')->first()->id,
                 'position'      => 'System Administrator',
                 'phone'         => '09001234567',
@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Supply Officer',
                 'email'         => 'officer@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('SupplyOfficer@2026!'),
                 'department_id' => Department::where('code', 'PROC')->first()->id,
                 'position'      => 'Supply Officer',
                 'phone'         => '09007654321',
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Supply Officer Staff',
                 'email'         => 'supply.staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('SupplyStaff@2026!'),
                 'department_id' => Department::where('code', 'PROC')->first()->id,
                 'position'      => 'Supply Staff Assistant',
                 'phone'         => '09007654322',
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Department Staff',
                 'email'         => 'staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Staff@2026!'),
                 'department_id' => Department::where('code', 'IT')->first()->id,
                 'position'      => 'IT Specialist',
                 'phone'         => '09001112222',
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Office Auditor',
                 'email'         => 'auditor@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Auditor@2026!'),
                 'department_id' => Department::where('code', 'FIN')->first()->id,
                 'position'      => 'Internal Auditor',
                 'phone'         => '09003334444',
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Budget Officer',
                 'email'         => 'budget@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('BudgetOfficer@2026!'),
                 'department_id' => Department::where('code', 'FIN')->first()->id,
                 'position'      => 'Budget Officer',
                 'phone'         => '09004445555',
@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Budget Officer Staff',
                 'email'         => 'budget.staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('BudgetStaff@2026!'),
                 'department_id' => Department::where('code', 'FIN')->first()->id,
                 'position'      => 'Budget Assistant',
                 'phone'         => '09004445556',
@@ -120,7 +120,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Accounting Officer',
                 'email'         => 'accounting@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('AccountingOfficer@2026!'),
                 'department_id' => Department::where('code', 'FIN')->first()->id,
                 'position'      => 'Chief Accountant',
                 'phone'         => '09005556666',
@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Accounting Staff',
                 'email'         => 'accounting.staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('AccountingStaff@2026!'),
                 'department_id' => Department::where('code', 'FIN')->first()->id,
                 'position'      => 'Accounting Assistant',
                 'phone'         => '09005556667',
@@ -140,7 +140,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Regional Director',
                 'email'         => 'director@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Director@2026!'),
                 'department_id' => Department::where('code', 'ADM')->first()->id,
                 'position'      => 'Regional Director',
                 'phone'         => '09006667777',
@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'RD Staff',
                 'email'         => 'rd.staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('ExecStaff@2026!'),
                 'department_id' => Department::where('code', 'ADM')->first()->id,
                 'position'      => 'RD Executive Staff',
                 'phone'         => '09006667778',
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Assistant Regional Director',
                 'email'         => 'ard@example.com',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Ard@2026!'),
                 'department_id' => Department::where('code', 'ADM')->first()->id,
                 'position'      => 'Assistant Regional Director',
                 'phone'         => '09009998888',
@@ -170,7 +170,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'ARD Staff',
                 'email'         => 'ard.staff@supply.local',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('ExecStaff@2026!'),
                 'department_id' => Department::where('code', 'ADM')->first()->id,
                 'position'      => 'ARD Executive Staff',
                 'phone'         => '09009998889',
@@ -180,7 +180,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name'          => 'Client User',
                 'email'         => 'client@example.com',
-                'password'      => Hash::make('Supply@2026'),
+                'password'      => Hash::make('Client@2026!'),
                 'department_id' => Department::where('code', 'IT')->first()->id,
                 'position'      => 'Client',
                 'phone'         => '09001112233',
