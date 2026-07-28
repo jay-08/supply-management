@@ -66,7 +66,12 @@ class DeliveryController extends Controller
                 'status'            => 'complete',
                 'inventory_updated' => true,
                 'attachment'        => $request->hasFile('attachment')
-                    ? $request->file('attachment')->store('deliveries', 'public')
+                    ? (function() use ($request) {
+                        $file = $request->file('attachment');
+                        $file->store('deliveries', 'public');
+                        $mime = $file->getMimeType();
+                        return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+                    })()
                     : null,
             ]);
 

@@ -36,6 +36,13 @@
                     <span style="font-size:13px;font-weight:500">{{ $v }}</span>
                 </div>
                 @endforeach
+                @if($delivery->attachment)
+                <div class="px-4 py-3 border-top">
+                    <a href="{{ $delivery->attachment_url }}" target="_blank" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="bi bi-paperclip me-1"></i> View Attachment
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
     </div>

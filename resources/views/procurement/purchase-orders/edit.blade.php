@@ -80,7 +80,7 @@
                     <div class="mb-4">
                         <i class="bi bi-file-earmark-check text-success mb-2" style="font-size: 3rem;"></i>
                         <h6 class="fw-bold">Current Attachment</h6>
-                        <a href="{{ asset('storage/' . $purchaseOrder->attachment) }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2"><i class="bi bi-box-arrow-up-right me-1"></i> View File</a>
+                        <a href="{{ $purchaseOrder->attachment_url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2"><i class="bi bi-box-arrow-up-right me-1"></i> View File</a>
                     </div>
                     <p class="text-muted">Upload a new file to replace the current attachment.</p>
                 @else

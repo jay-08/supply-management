@@ -135,8 +135,14 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) Storage::disk('public')->delete($user->avatar);
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+            if ($user->avatar && !str_starts_with($user->avatar, 'data:')) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $file = $request->file('avatar');
+            $file->store('avatars', 'public');
+            $mime = $file->getMimeType();
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $data['avatar'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         if (!empty($data['password'])) {

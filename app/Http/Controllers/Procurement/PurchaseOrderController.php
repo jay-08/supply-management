@@ -66,9 +66,13 @@ class PurchaseOrderController extends Controller
                 $taxAmt = $totalAmount - $subtotal;
             }
 
-            $attachmentPath = $request->hasFile('attachment') 
-                ? $request->file('attachment')->store('purchase_orders', 'public') 
-                : null;
+            $attachmentPath = null;
+            if ($request->hasFile('attachment')) {
+                $file = $request->file('attachment');
+                $file->store('purchase_orders', 'public');
+                $mime = $file->getMimeType();
+                $attachmentPath = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+            }
 
             $po = PurchaseOrder::create([
                 'po_number'           => PurchaseOrder::generatePoNumber(),

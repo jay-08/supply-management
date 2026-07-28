@@ -203,7 +203,7 @@
                     <i class="bi bi-file-earmark-check text-success mb-3" style="font-size: 4rem;"></i>
                     <h5 class="fw-bold mb-2">Purchase Order Document</h5>
                     <p class="text-muted mb-4">View or download the attached Purchase Order document.</p>
-                    <a href="{{ asset('storage/' . $purchaseOrder->attachment) }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                    <a href="{{ $purchaseOrder->attachment_url }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">
                         <i class="bi bi-box-arrow-up-right me-2"></i> View Attachment
                     </a>
                 @else

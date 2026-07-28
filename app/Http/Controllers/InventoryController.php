@@ -61,7 +61,11 @@ class InventoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('inventory', 'public');
+            $file = $request->file('image');
+            $file->store('inventory', 'public');
+            $mime = $file->getMimeType();
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $data['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         $qty = $data['quantity'];
@@ -117,8 +121,14 @@ class InventoryController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($inventory->image) Storage::disk('public')->delete($inventory->image);
-            $data['image'] = $request->file('image')->store('inventory', 'public');
+            if ($inventory->image && !str_starts_with($inventory->image, 'data:')) {
+                Storage::disk('public')->delete($inventory->image);
+            }
+            $file = $request->file('image');
+            $file->store('inventory', 'public');
+            $mime = $file->getMimeType();
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $data['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
         $inventory->update($data);

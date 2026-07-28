@@ -176,4 +176,15 @@ class PurchaseOrder extends Model
             default                  => 'info',
         };
     }
+
+    public function getAttachmentUrlAttribute(): ?string
+    {
+        if (!$this->attachment) {
+            return null;
+        }
+        if (str_starts_with($this->attachment, 'http') || str_starts_with($this->attachment, 'data:')) {
+            return $this->attachment;
+        }
+        return asset('storage/' . $this->attachment);
+    }
 }
