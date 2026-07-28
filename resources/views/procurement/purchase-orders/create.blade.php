@@ -106,10 +106,10 @@
             </div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-5" style="border: 2px dashed #cbd5e1; border-radius: 12px; margin: 20px;">
                 <i class="bi bi-cloud-arrow-up text-muted mb-3" style="font-size: 4rem;"></i>
-                <h5 class="fw-bold mb-2">Upload Purchase Order</h5>
-                <p class="text-muted mb-4">Attach the scanned or digital Purchase Order document (PDF or Image).</p>
+                <p class="text-muted mb-4">Attach the scanned or digital Purchase Order document (PDF or Image, <strong>Max 5 MB</strong>).</p>
                 
-                <input type="file" name="attachment" id="poAttachment" class="form-control w-75" accept=".pdf,image/*">
+                <input type="file" name="attachment" id="poAttachment" class="form-control w-75" accept=".pdf,.jpg,.jpeg,.png" onchange="validatePoFileSize(this)">
+                <div id="poFileSizeError" class="text-danger small mt-2 d-none"><i class="bi bi-exclamation-triangle-fill me-1"></i> File size exceeds 5 MB. Please select a smaller file under 5 MB.</div>
             </div>
         </div>
     </div>
@@ -138,6 +138,22 @@ function toggleLegacyFields() {
     }
     
     document.getElementById('legacyStatus').required = isLegacy;
+}
+
+function validatePoFileSize(input) {
+    const maxBytes = 5 * 1024 * 1024;
+    const errorEl = document.getElementById('poFileSizeError');
+    if (input.files && input.files[0]) {
+        if (input.files[0].size > maxBytes) {
+            if (errorEl) errorEl.classList.remove('d-none');
+            alert('⚠️ File size exceeds 5 MB limit. Please choose a smaller file under 5 MB.');
+            input.value = '';
+            return false;
+        } else {
+            if (errorEl) errorEl.classList.add('d-none');
+        }
+    }
+    return true;
 }
 </script>
 @endpush

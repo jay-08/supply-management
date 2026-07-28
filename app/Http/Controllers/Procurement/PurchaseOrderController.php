@@ -51,6 +51,9 @@ class PurchaseOrderController extends Controller
             'is_legacy'           => 'nullable|boolean',
             'legacy_status'       => 'nullable|string|required_if:is_legacy,1',
             'legacy_remarks'      => 'nullable|string',
+        ], [
+            'attachment.max'   => 'The attached file size cannot exceed 5 MB.',
+            'attachment.mimes' => 'The attached file must be a PDF or Image (.pdf, .jpg, .png).',
         ]);
 
         DB::transaction(function () use ($data, $request) {
@@ -143,6 +146,9 @@ class PurchaseOrderController extends Controller
             'total_amount'     => 'required|numeric|min:0',
             'status'           => 'required|in:draft,pending',
             'attachment'       => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ], [
+            'attachment.max'   => 'The attached file size cannot exceed 5 MB.',
+            'attachment.mimes' => 'The attached file must be a PDF or Image (.pdf, .jpg, .png).',
         ]);
 
         DB::transaction(function () use ($purchaseOrder, $data, $request) {

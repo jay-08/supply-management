@@ -88,10 +88,31 @@
                     <h5 class="fw-bold mb-2">Upload Purchase Order</h5>
                     <p class="text-muted mb-4">Attach the scanned or digital Purchase Order document (PDF or Image).</p>
                 @endif
-                <input type="file" name="attachment" id="poAttachment" class="form-control w-75" accept=".pdf,image/*">
+                <p class="text-muted mb-2 small">Accepted formats: PDF or Image (.pdf, .jpg, .png) — <strong>Max 5 MB</strong></p>
+                <input type="file" name="attachment" id="poAttachment" class="form-control w-75" accept=".pdf,.jpg,.jpeg,.png" onchange="validatePoEditFileSize(this)">
+                <div id="poEditFileSizeError" class="text-danger small mt-2 d-none"><i class="bi bi-exclamation-triangle-fill me-1"></i> File size exceeds 5 MB. Please select a smaller file under 5 MB.</div>
             </div>
         </div>
     </div>
 </div>
 </form>
 @endsection
+@push('scripts')
+<script>
+function validatePoEditFileSize(input) {
+    const maxBytes = 5 * 1024 * 1024;
+    const errorEl = document.getElementById('poEditFileSizeError');
+    if (input.files && input.files[0]) {
+        if (input.files[0].size > maxBytes) {
+            if (errorEl) errorEl.classList.remove('d-none');
+            alert('⚠️ File size exceeds 5 MB limit. Please choose a smaller file under 5 MB.');
+            input.value = '';
+            return false;
+        } else {
+            if (errorEl) errorEl.classList.add('d-none');
+        }
+    }
+    return true;
+}
+</script>
+@endpush
