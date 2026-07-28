@@ -130,18 +130,18 @@ class UserController extends Controller
             'name'     => 'required|string|max:100',
             'phone'    => 'nullable|string|max:20',
             'position' => 'nullable|string|max:100',
-            'avatar'   => 'nullable|image|max:2048',
+            'avatar'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
             if ($user->avatar && !str_starts_with($user->avatar, 'data:')) {
                 Storage::disk('public')->delete($user->avatar);
             }
             $file = $request->file('avatar');
             $file->store('avatars', 'public');
-            $mime = $file->getMimeType();
-            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $mime = $file->getClientMimeType() ?: $file->getMimeType();
+            $base64 = base64_encode($file->get());
             $data['avatar'] = 'data:' . $mime . ';base64,' . $base64;
         }
 

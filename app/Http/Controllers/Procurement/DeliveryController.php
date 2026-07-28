@@ -65,12 +65,12 @@ class DeliveryController extends Controller
                 'remarks'           => $data['remarks'] ?? null,
                 'status'            => 'complete',
                 'inventory_updated' => true,
-                'attachment'        => $request->hasFile('attachment')
+                'attachment'        => ($request->hasFile('attachment') && $request->file('attachment')->isValid())
                     ? (function() use ($request) {
                         $file = $request->file('attachment');
                         $file->store('deliveries', 'public');
-                        $mime = $file->getMimeType();
-                        return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+                        $mime = $file->getClientMimeType() ?: $file->getMimeType();
+                        return 'data:' . $mime . ';base64,' . base64_encode($file->get());
                     })()
                     : null,
             ]);

@@ -70,11 +70,11 @@ class PurchaseOrderController extends Controller
             }
 
             $attachmentPath = null;
-            if ($request->hasFile('attachment')) {
+            if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
                 $file = $request->file('attachment');
                 $file->store('purchase_orders', 'public');
-                $mime = $file->getMimeType();
-                $attachmentPath = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+                $mime = $file->getClientMimeType() ?: $file->getMimeType();
+                $attachmentPath = 'data:' . $mime . ';base64,' . base64_encode($file->get());
             }
 
             $po = PurchaseOrder::create([
@@ -174,8 +174,11 @@ class PurchaseOrderController extends Controller
                 'status'           => $data['status'],
             ];
 
-            if ($request->hasFile('attachment')) {
-                $updateData['attachment'] = $request->file('attachment')->store('purchase_orders', 'public');
+            if ($request->hasFile('attachment') && $request->file('attachment')->isValid()) {
+                $file = $request->file('attachment');
+                $file->store('purchase_orders', 'public');
+                $mime = $file->getClientMimeType() ?: $file->getMimeType();
+                $updateData['attachment'] = 'data:' . $mime . ';base64,' . base64_encode($file->get());
             }
 
             $purchaseOrder->update($updateData);

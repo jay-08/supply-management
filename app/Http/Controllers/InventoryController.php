@@ -57,14 +57,14 @@ class InventoryController extends Controller
             'unit_cost'     => 'required|numeric|min:0',
             'location'      => 'nullable|string|max:100',
             'status'        => 'required|in:active,inactive',
-            'image'         => 'nullable|image|max:2048',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
             $file->store('inventory', 'public');
-            $mime = $file->getMimeType();
-            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $mime = $file->getClientMimeType() ?: $file->getMimeType();
+            $base64 = base64_encode($file->get());
             $data['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
@@ -117,17 +117,17 @@ class InventoryController extends Controller
             'unit_cost'     => 'required|numeric|min:0',
             'location'      => 'nullable|string|max:100',
             'status'        => 'required|in:active,inactive,discontinued',
-            'image'         => 'nullable|image|max:2048',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             if ($inventory->image && !str_starts_with($inventory->image, 'data:')) {
                 Storage::disk('public')->delete($inventory->image);
             }
             $file = $request->file('image');
             $file->store('inventory', 'public');
-            $mime = $file->getMimeType();
-            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $mime = $file->getClientMimeType() ?: $file->getMimeType();
+            $base64 = base64_encode($file->get());
             $data['image'] = 'data:' . $mime . ';base64,' . $base64;
         }
 
