@@ -68,10 +68,11 @@ class ChatbotController extends Controller
             return "👥 **Officer Staff Accounts:**\neach office (Supply, Budget, Accounting, ARD, RD) has designated **Staff Accounts** (`supply-staff`, `budget-staff`, `accounting-staff`, `ard-staff`, `rd-staff`). Staff accounts can view records and **Receive POs** routed to their department.";
         }
 
-        // 6. Stock & Inventory
-        if (str_contains($msg, 'stock') || str_contains($msg, 'inventory') || str_contains($msg, 'available') || str_contains($msg, 'item') || str_contains($msg, 'out of stock')) {
+        // 6. Stock & Inventory / Available Supplies
+        if (str_contains($msg, 'stock') || str_contains($msg, 'inventory') || str_contains($msg, 'available') || str_contains($msg, 'item') || str_contains($msg, 'out of stock') || str_contains($msg, 'catalog') || str_contains($msg, 'list')) {
             $totalItems = InventoryItem::where('status', 'active')->count();
-            return "📊 **Inventory System Status:**\nCurrently tracking **{$totalItems} active supply items** in stock. Items below minimum threshold automatically alert Supply Officers for replenishment.";
+            $catalogUrl = route('public.catalog');
+            return "📊 **Available Supplies:**\nCurrently tracking **{$totalItems} active supply items** in stock.\n\nTo view available supplies, go to [Supply Catalog]({$catalogUrl})!";
         }
 
         // 7. Login & Access

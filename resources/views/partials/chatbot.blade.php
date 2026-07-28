@@ -46,10 +46,10 @@
 
             {{-- Quick FAQ Topic Chips --}}
             <div id="aiQuickChips" class="d-flex flex-wrap gap-1 ps-4 ms-1">
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0.5 text-start chip-btn" style="font-size: 10.5px; font-weight: 500;" onclick="sendQuickQuestion('Available supplies')">📊 Available supplies</button>
                 <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0.5 text-start chip-btn" style="font-size: 10.5px; font-weight: 500;" onclick="sendQuickQuestion('How to request supplies?')">📦 Request supplies</button>
                 <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0.5 text-start chip-btn" style="font-size: 10.5px; font-weight: 500;" onclick="sendQuickQuestion('How to track status?')">🔍 Track status</button>
                 <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0.5 text-start chip-btn" style="font-size: 10.5px; font-weight: 500;" onclick="sendQuickQuestion('PO Workflow')">⏱️ PO Workflow</button>
-                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0.5 text-start chip-btn" style="font-size: 10.5px; font-weight: 500;" onclick="sendQuickQuestion('How to claim supplies?')">✅ Claim supplies</button>
             </div>
 
         </div>
@@ -137,8 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = 'd-flex gap-2 align-items-start max-w-85';
         
-        // Convert Markdown formatting (bold, linebreaks, code) to HTML
+        // Convert Markdown formatting (links, bold, linebreaks, code) to HTML
         let formatted = escapeHtml(text)
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-primary fw-bold text-decoration-underline" target="_self">$1</a>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/`([^`]+)`/g, '<code class="bg-light text-primary px-1 rounded">$1</code>')
             .replace(/\n/g, '<br>');
