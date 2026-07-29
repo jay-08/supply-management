@@ -197,17 +197,23 @@
 
     <div class="col-lg-8">
         <div class="card mb-4">
-            <div class="card-header"><h5 class="card-title">PO Attachment</h5></div>
-            <div class="card-body text-center p-5">
+            <div class="card-header"><h5 class="card-title"><i class="bi bi-paperclip text-primary me-2"></i>PO Attachment</h5></div>
+            <div class="card-body text-center p-4">
                 @if($purchaseOrder->attachment)
-                    <i class="bi bi-file-earmark-check text-success mb-3" style="font-size: 4rem;"></i>
+                    @if(str_starts_with($purchaseOrder->attachment, 'data:image/') || preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $purchaseOrder->attachment))
+                        <div class="mb-3">
+                            <img src="{{ $purchaseOrder->attachment_url }}" alt="PO Attachment" class="img-fluid rounded shadow-sm border" style="max-height: 300px; object-fit: contain;">
+                        </div>
+                    @else
+                        <i class="bi bi-file-earmark-pdf text-danger mb-3" style="font-size: 3.5rem;"></i>
+                    @endif
                     <h5 class="fw-bold mb-2">Purchase Order Document</h5>
-                    <p class="text-muted mb-4">View or download the attached Purchase Order document.</p>
-                    <a href="{{ $purchaseOrder->attachment_url }}" target="_blank" class="btn btn-primary px-4 rounded-pill shadow-sm">
-                        <i class="bi bi-box-arrow-up-right me-2"></i> View Attachment
+                    <p class="text-muted mb-3">Scanned or digital Purchase Order document attached to this PO.</p>
+                    <a href="{{ $purchaseOrder->attachment_url }}" target="_blank" download="PO-Attachment-{{ $purchaseOrder->po_number }}" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                        <i class="bi bi-box-arrow-up-right me-2"></i> View / Download Attachment
                     </a>
                 @else
-                    <i class="bi bi-file-earmark-x text-muted mb-3" style="font-size: 4rem;"></i>
+                    <i class="bi bi-file-earmark-x text-muted mb-3" style="font-size: 3.5rem;"></i>
                     <h5 class="fw-bold mb-2 text-muted">No Attachment</h5>
                     <p class="text-muted mb-0">This Purchase Order does not have a document attached.</p>
                 @endif

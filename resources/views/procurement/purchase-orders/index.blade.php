@@ -50,7 +50,12 @@
                 <tbody>
                     @foreach($pos as $po)
                     <tr>
-                        <td><a href="{{ route('procurement.purchase-orders.show', $po->id) }}" class="fw-bold text-decoration-none" style="color:var(--success)">{{ $po->po_number }}</a></td>
+                        <td>
+                            <a href="{{ route('procurement.purchase-orders.show', $po->id) }}" class="fw-bold text-decoration-none" style="color:var(--success)">{{ $po->po_number }}</a>
+                            @if($po->attachment)
+                                <a href="{{ $po->attachment_url }}" target="_blank" title="View Attachment" class="text-primary ms-1"><i class="bi bi-paperclip"></i></a>
+                            @endif
+                        </td>
                         <td style="font-size:13px">{{ $po->supplier?->name }}</td>
                         <td style="font-size:12px">{{ $po->po_date?->format('M d, Y') }}</td>
                         <td style="font-size:12px;color:{{ $po->delivery_date && $po->delivery_date->isPast() && !in_array($po->status,['delivered','cancelled']) ? 'var(--danger)' : 'var(--text-muted)' }}">
