@@ -254,7 +254,7 @@
             function hideLoader() {
                 var loader = document.getElementById('pageLoader');
                 if (loader) {
-                    setTimeout(function() { loader.classList.add('fade-out'); }, 80);
+                    setTimeout(function() { loader.classList.add('fade-out'); }, 50);
                 }
             }
 
@@ -265,8 +265,8 @@
                 window.addEventListener('load', hideLoader);
             }
 
-            // Guaranteed safety fallback: auto-hide after 1.2s
-            setTimeout(hideLoader, 1200);
+            // Guaranteed safety fallback: auto-hide after 500ms
+            setTimeout(hideLoader, 500);
         })();
 
         document.getElementById('loginForm').addEventListener('submit', function() {

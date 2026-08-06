@@ -518,7 +518,7 @@ function clearAllCartKeys() {
     function hideLoader() {
         var loader = document.getElementById('pageLoader');
         if (loader) {
-            setTimeout(function() { loader.classList.add('fade-out'); }, 80);
+            setTimeout(function() { loader.classList.add('fade-out'); }, 50);
         }
     }
 
@@ -529,8 +529,8 @@ function clearAllCartKeys() {
         window.addEventListener('load', hideLoader);
     }
 
-    // Safety fallback: auto-hide after 1.2s
-    setTimeout(hideLoader, 1200);
+    // Guaranteed safety fallback: auto-hide after 500ms
+    setTimeout(hideLoader, 500);
 })();
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -544,23 +544,8 @@ window.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('submit', function(e) {
     if (e.target && e.target.id === 'aiChatbotForm') return;
     const loader = document.getElementById('pageLoader');
-    const subtext = document.getElementById('loaderSubtext');
     if (loader) {
-        if (subtext) subtext.innerHTML = '<span>Processing request</span><span class="loader-dots"><span></span><span></span><span></span></span>';
         loader.classList.remove('fade-out');
-    }
-});
-
-// Show loader on navigating link clicks
-document.addEventListener('click', function(e) {
-    const a = e.target.closest('a');
-    if (a && a.href && !a.href.startsWith('javascript:') && !a.href.includes('#') && !a.target && a.origin === window.location.origin) {
-        const loader = document.getElementById('pageLoader');
-        const subtext = document.getElementById('loaderSubtext');
-        if (loader) {
-            if (subtext) subtext.innerHTML = '<span>Loading page</span><span class="loader-dots"><span></span><span></span><span></span></span>';
-            loader.classList.remove('fade-out');
-        }
     }
 });
 
