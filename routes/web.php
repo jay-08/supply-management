@@ -16,6 +16,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\BackupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,6 +162,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('roles', RoleController::class)->only(['index','store','destroy']);
         Route::resource('departments', DepartmentController::class);
+
+        // Database Backup & Restore
+        Route::get('/backups',               [BackupController::class, 'index'])->name('backups.index');
+        Route::get('/backups/download-sql',  [BackupController::class, 'downloadSql'])->name('backups.download-sql');
+        Route::get('/backups/download-json', [BackupController::class, 'downloadJson'])->name('backups.download-json');
+        Route::post('/backups/restore',      [BackupController::class, 'restore'])->name('backups.restore');
     });
 
     // Profile

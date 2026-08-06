@@ -146,6 +146,10 @@
                 <i class="bi bi-shield-fill"></i>
                 <span>Roles</span>
             </a>
+            <a href="{{ route('backups.index') }}" class="sidebar-link {{ request()->routeIs('backups.*') ? 'active' : '' }}">
+                <i class="bi bi-database-fill-gear"></i>
+                <span>Database Backup</span>
+            </a>
             @endrole
         </nav>
     </aside>
