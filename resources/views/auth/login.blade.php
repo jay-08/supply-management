@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         :root {
             --primary: #2563EB;
@@ -162,6 +163,21 @@
     </style>
 </head>
 <body>
+
+{{-- ===== GLOBAL LOADING SCREEN ===== --}}
+<div id="pageLoader">
+    <div class="loader-content">
+        <div class="loader-icon-box">
+            <div class="loader-spinner"></div>
+            <i class="bi bi-box-seam-fill loader-brand-icon"></i>
+        </div>
+        <div class="loader-text">Supply Management System</div>
+        <div class="loader-subtitle" id="loaderSubtext">
+            <span>Loading login portal</span>
+            <span class="loader-dots"><span></span><span></span><span></span></span>
+        </div>
+    </div>
+</div>
     <div class="login-wrapper">
         <div class="login-card">
             <div class="brand-logo">
@@ -234,10 +250,23 @@
             document.getElementById('emailInput').value = email;
             document.getElementById('passwordInput').value = pw;
         }
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(function() {
+                const loader = document.getElementById('pageLoader');
+                if (loader) loader.classList.add('fade-out');
+            }, 150);
+        });
+
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('loginBtn');
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
             btn.disabled = true;
+            const loader = document.getElementById('pageLoader');
+            const subtext = document.getElementById('loaderSubtext');
+            if (loader) {
+                if (subtext) subtext.innerHTML = '<span>Signing in to workspace</span><span class="loader-dots"><span></span><span></span><span></span></span>';
+                loader.classList.remove('fade-out');
+            }
         });
     </script>
 </body>

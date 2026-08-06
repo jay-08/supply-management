@@ -17,8 +17,22 @@
     {{-- Custom --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
-</head>
 <body>
+
+{{-- ===== GLOBAL LOADING SCREEN ===== --}}
+<div id="pageLoader">
+    <div class="loader-content">
+        <div class="loader-icon-box">
+            <div class="loader-spinner"></div>
+            <i class="bi bi-box-seam-fill loader-brand-icon"></i>
+        </div>
+        <div class="loader-text">Supply Management System</div>
+        <div class="loader-subtitle" id="loaderSubtext">
+            <span>Loading workspace</span>
+            <span class="loader-dots"><span></span><span></span><span></span></span>
+        </div>
+    </div>
+</div>
 
 <div class="app-wrapper" id="appWrapper">
 
@@ -495,14 +509,44 @@ function clearAllCartKeys() {
     updateCartUI();
 }
 
-// Initialize Cart UI on load
-document.addEventListener('DOMContentLoaded', () => {
+// Page Loader Handlers
+window.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
     
     // Clear cart on successful submission (if success message exists)
     @if(session('success'))
         clearAllCartKeys();
     @endif
+
+    // Smoothly fade out page loader
+    setTimeout(function() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) loader.classList.add('fade-out');
+    }, 150);
+});
+
+// Show loader on form submission
+document.addEventListener('submit', function(e) {
+    if (e.target && e.target.id === 'aiChatbotForm') return;
+    const loader = document.getElementById('pageLoader');
+    const subtext = document.getElementById('loaderSubtext');
+    if (loader) {
+        if (subtext) subtext.innerHTML = '<span>Processing request</span><span class="loader-dots"><span></span><span></span><span></span></span>';
+        loader.classList.remove('fade-out');
+    }
+});
+
+// Show loader on navigating link clicks
+document.addEventListener('click', function(e) {
+    const a = e.target.closest('a');
+    if (a && a.href && !a.href.startsWith('javascript:') && !a.href.includes('#') && !a.target && a.origin === window.location.origin) {
+        const loader = document.getElementById('pageLoader');
+        const subtext = document.getElementById('loaderSubtext');
+        if (loader) {
+            if (subtext) subtext.innerHTML = '<span>Loading page</span><span class="loader-dots"><span></span><span></span><span></span></span>';
+            loader.classList.remove('fade-out');
+        }
+    }
 });
 
 </script>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     
     <style>
         :root {
@@ -59,9 +60,22 @@
             color: #64748b;
         }
     </style>
-    @stack('styles')
-</head>
 <body>
+
+{{-- ===== GLOBAL LOADING SCREEN ===== --}}
+<div id="pageLoader">
+    <div class="loader-content">
+        <div class="loader-icon-box">
+            <div class="loader-spinner"></div>
+            <i class="bi bi-box-seam-fill loader-brand-icon"></i>
+        </div>
+        <div class="loader-text">Supply Portal</div>
+        <div class="loader-subtitle" id="loaderSubtext">
+            <span>Loading page</span>
+            <span class="loader-dots"><span></span><span></span><span></span></span>
+        </div>
+    </div>
+</div>
 
     {{-- TOP NAVBAR --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
@@ -271,12 +285,39 @@
             updateCartUI();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
             
             @if(session('success'))
                 clearAllCartKeys();
             @endif
+
+            setTimeout(function() {
+                const loader = document.getElementById('pageLoader');
+                if (loader) loader.classList.add('fade-out');
+            }, 150);
+        });
+
+        document.addEventListener('submit', function(e) {
+            if (e.target && e.target.id === 'aiChatbotForm') return;
+            const loader = document.getElementById('pageLoader');
+            const subtext = document.getElementById('loaderSubtext');
+            if (loader) {
+                if (subtext) subtext.innerHTML = '<span>Processing request</span><span class="loader-dots"><span></span><span></span><span></span></span>';
+                loader.classList.remove('fade-out');
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            const a = e.target.closest('a');
+            if (a && a.href && !a.href.startsWith('javascript:') && !a.href.includes('#') && !a.target && a.origin === window.location.origin) {
+                const loader = document.getElementById('pageLoader');
+                const subtext = document.getElementById('loaderSubtext');
+                if (loader) {
+                    if (subtext) subtext.innerHTML = '<span>Loading page</span><span class="loader-dots"><span></span><span></span><span></span></span>';
+                    loader.classList.remove('fade-out');
+                }
+            }
         });
     </script>
     @endif
