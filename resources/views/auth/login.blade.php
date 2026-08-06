@@ -250,34 +250,13 @@
             document.getElementById('emailInput').value = email;
             document.getElementById('passwordInput').value = pw;
         }
-        (function() {
-            function hideLoader() {
-                var loader = document.getElementById('pageLoader');
-                if (loader) {
-                    setTimeout(function() { loader.classList.add('fade-out'); }, 50);
-                }
-            }
-
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                hideLoader();
-            } else {
-                window.addEventListener('DOMContentLoaded', hideLoader);
-                window.addEventListener('load', hideLoader);
-            }
-
-            // Guaranteed safety fallback: auto-hide after 500ms
-            setTimeout(hideLoader, 500);
-        })();
-
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('loginBtn');
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
             btn.disabled = true;
             const loader = document.getElementById('pageLoader');
-            const subtext = document.getElementById('loaderSubtext');
             if (loader) {
-                if (subtext) subtext.innerHTML = '<span>Signing in to workspace</span><span class="loader-dots"><span></span><span></span><span></span></span>';
-                loader.classList.remove('fade-out');
+                loader.classList.add('show-loader');
             }
         });
     </script>

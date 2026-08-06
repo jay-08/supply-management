@@ -62,21 +62,6 @@
     </style>
 <body>
 
-{{-- ===== GLOBAL LOADING SCREEN ===== --}}
-<div id="pageLoader">
-    <div class="loader-content">
-        <div class="loader-icon-box">
-            <div class="loader-spinner"></div>
-            <i class="bi bi-box-seam-fill loader-brand-icon"></i>
-        </div>
-        <div class="loader-text">Supply Portal</div>
-        <div class="loader-subtitle" id="loaderSubtext">
-            <span>Loading page</span>
-            <span class="loader-dots"><span></span><span></span><span></span></span>
-        </div>
-    </div>
-</div>
-
     {{-- TOP NAVBAR --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
         <div class="container-fluid px-4 px-md-5">
@@ -285,38 +270,11 @@
             updateCartUI();
         }
 
-        (function() {
-            function hideLoader() {
-                var loader = document.getElementById('pageLoader');
-                if (loader) {
-                    setTimeout(function() { loader.classList.add('fade-out'); }, 50);
-                }
-            }
-
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                hideLoader();
-            } else {
-                window.addEventListener('DOMContentLoaded', hideLoader);
-                window.addEventListener('load', hideLoader);
-            }
-
-            // Guaranteed safety fallback: auto-hide after 500ms
-            setTimeout(hideLoader, 500);
-        })();
-
         window.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
             @if(session('success'))
                 clearAllCartKeys();
             @endif
-        });
-
-        document.addEventListener('submit', function(e) {
-            if (e.target && e.target.id === 'aiChatbotForm') return;
-            const loader = document.getElementById('pageLoader');
-            if (loader) {
-                loader.classList.remove('fade-out');
-            }
         });
     </script>
     @endif

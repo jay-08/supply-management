@@ -513,26 +513,6 @@ function clearAllCartKeys() {
     updateCartUI();
 }
 
-// Page Loader Handlers
-(function() {
-    function hideLoader() {
-        var loader = document.getElementById('pageLoader');
-        if (loader) {
-            setTimeout(function() { loader.classList.add('fade-out'); }, 50);
-        }
-    }
-
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        hideLoader();
-    } else {
-        window.addEventListener('DOMContentLoaded', hideLoader);
-        window.addEventListener('load', hideLoader);
-    }
-
-    // Guaranteed safety fallback: auto-hide after 500ms
-    setTimeout(hideLoader, 500);
-})();
-
 window.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
     @if(session('success'))
@@ -540,12 +520,12 @@ window.addEventListener('DOMContentLoaded', () => {
     @endif
 });
 
-// Show loader on form submission
+// Show loader only on form submission
 document.addEventListener('submit', function(e) {
     if (e.target && e.target.id === 'aiChatbotForm') return;
     const loader = document.getElementById('pageLoader');
     if (loader) {
-        loader.classList.remove('fade-out');
+        loader.classList.add('show-loader');
     }
 });
 
