@@ -162,7 +162,7 @@
         .demo-cred-item strong { color: rgba(255,255,255,.9); }
     </style>
 </head>
-<body>
+<body class="login-page">
 
 {{-- ===== GLOBAL LOADING SCREEN ===== --}}
 <div id="pageLoader">
@@ -250,12 +250,24 @@
             document.getElementById('emailInput').value = email;
             document.getElementById('passwordInput').value = pw;
         }
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(function() {
-                const loader = document.getElementById('pageLoader');
-                if (loader) loader.classList.add('fade-out');
-            }, 150);
-        });
+        (function() {
+            function hideLoader() {
+                var loader = document.getElementById('pageLoader');
+                if (loader) {
+                    setTimeout(function() { loader.classList.add('fade-out'); }, 80);
+                }
+            }
+
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                hideLoader();
+            } else {
+                window.addEventListener('DOMContentLoaded', hideLoader);
+                window.addEventListener('load', hideLoader);
+            }
+
+            // Guaranteed safety fallback: auto-hide after 1.2s
+            setTimeout(hideLoader, 1200);
+        })();
 
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('loginBtn');

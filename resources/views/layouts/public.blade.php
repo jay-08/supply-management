@@ -285,17 +285,30 @@
             updateCartUI();
         }
 
+        (function() {
+            function hideLoader() {
+                var loader = document.getElementById('pageLoader');
+                if (loader) {
+                    setTimeout(function() { loader.classList.add('fade-out'); }, 80);
+                }
+            }
+
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                hideLoader();
+            } else {
+                window.addEventListener('DOMContentLoaded', hideLoader);
+                window.addEventListener('load', hideLoader);
+            }
+
+            // Safety fallback: auto-hide after 1.2s
+            setTimeout(hideLoader, 1200);
+        })();
+
         window.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
-            
             @if(session('success'))
                 clearAllCartKeys();
             @endif
-
-            setTimeout(function() {
-                const loader = document.getElementById('pageLoader');
-                if (loader) loader.classList.add('fade-out');
-            }, 150);
         });
 
         document.addEventListener('submit', function(e) {
